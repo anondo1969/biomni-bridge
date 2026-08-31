@@ -33,9 +33,16 @@ def test_dockerfile_remains_multi_stage_and_runs_bridge_cli() -> None:
     assert "THIRD_PARTY_NOTICES.md" not in (ROOT / ".dockerignore").read_text().splitlines()
 
 
-def test_release_workflow_uses_native_multiplatform_docker_builder() -> None:
+def test_release_workflow_uses_multiplatform_buildx() -> None:
     text = (ROOT / ".github" / "workflows" / "release.yml").read_text()
-    assert "docker/github-builder/.github/workflows/build.yml@v1" in text
+
+    assert "actions/checkout@v7" in text
+    assert "docker/setup-qemu-action@v4" in text
+    assert "docker/setup-buildx-action@v4" in text
+    assert "docker/build-push-action@v7" in text
+    assert "context: ." in text
+    assert "platforms: linux/amd64,linux/arm64" in text
+    assert "push: true" in text
     assert "platforms: linux/amd64,linux/arm64" in text
     assert "packages: write" in text
     assert "id-token: write" in text
@@ -47,7 +54,12 @@ def test_release_workflow_uses_native_multiplatform_docker_builder() -> None:
 
 def test_docker_check_never_pushes_registry_images() -> None:
     text = (ROOT / ".github" / "workflows" / "docker-check.yml").read_text()
-    assert "docker/github-builder/.github/workflows/build.yml@v1" in text
+
+    assert "actions/checkout@v7" in text
+    assert "docker/setup-buildx-action@v4" in text
+    assert "docker/build-push-action@v7" in text
+    assert "context: ." in text
+    assert "push: false" in text
     assert "push: false" in text
     assert "workflow_dispatch:" in text
 
@@ -72,7 +84,9 @@ def test_release_workflow_uses_trusted_pypi_publishing_and_tag_guard() -> None:
     assert "actions/upload-artifact@v7" in text
     assert "actions/download-artifact@v8" in text
     assert "does not match pyproject version" in text
-    assert "needs: [package, docker]" in text
+    assert "needs:" in text
+    assert "- package" in text
+    assert "- docker" in text
     assert "gh release create" in text
     assert "PYPI_TOKEN" not in text
 
