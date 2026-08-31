@@ -40,16 +40,18 @@ def test_release_workflow_uses_multiplatform_buildx() -> None:
     assert "docker/setup-qemu-action@v4" in text
     assert "docker/setup-buildx-action@v4" in text
     assert "docker/build-push-action@v7" in text
+
     assert "context: ." in text
     assert "platforms: linux/amd64,linux/arm64" in text
     assert "push: true" in text
-    assert "platforms: linux/amd64,linux/arm64" in text
+
     assert "packages: write" in text
     assert "id-token: write" in text
     assert "registry: ghcr.io" in text
-    assert "cache: true" in text
-    assert "cache-mode: min" in text
-    assert "sbom: true" in text
+
+    assert "cache-from:" in text
+    assert "cache-to:" in text
+    assert "type=gha" in text
 
 
 def test_docker_check_never_pushes_registry_images() -> None:
