@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "biomni-bridge"
+version = "0.3.1"
+description = "Bridge Biomni 0.0.8 to custom OpenAI-compatible model endpoints"
+readme = "README.md"
+requires-python = ">=3.11,<3.12"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE", "THIRD_PARTY_NOTICES.md"]
+keywords = ["biomni", "biomedical", "agent", "gradio", "llm", "openai-compatible"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Operating System :: OS Independent",
+  "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
+dynamic = ["dependencies"]
+
+[project.optional-dependencies]
+dev = [
+  "pytest==8.4.1",
+  "ruff==0.12.7",
+]
+release = [
+  "build==1.6.0",
+  "twine==7.0.0",
+]
+
+[project.scripts]
+biomni-bridge = "biomni_bridge.app:main"
+biomni-bridge-endpoint-check = "biomni_bridge.endpoint_check:main"
+biomni-bridge-endpoint-diagnose = "biomni_bridge.endpoint_diagnose:main"
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]

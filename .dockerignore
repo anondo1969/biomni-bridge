@@ -1,0 +1,25 @@
+.git
+.github
+.env
+.env.*
+!.env.example
+.venv
+venv
+__pycache__
+*.py[cod]
+.pytest_cache
+.ruff_cache
+*.egg-info
+build
+dist
+data
+output
+*.pdf
+.DS_Store
+only-codes.zip
+files.zip
+files (2).zip
+tests
+README_MAINTAINER.md
+Makefile
+docker-compose.yml

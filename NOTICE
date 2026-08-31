@@ -1,0 +1,10 @@
+Biomni Bridge
+Copyright 2026 Biomni Bridge contributors
+
+Biomni Bridge is an independent integration wrapper around the Biomni project.
+It is not affiliated with, sponsored by, or endorsed by the Zitnik Lab, the
+upstream Biomni project, or its authors.
+
+Biomni is an external dependency distributed under the Apache License 2.0.
+See THIRD_PARTY_NOTICES.md and the upstream Biomni project for additional
+license and data-usage information.

@@ -1,0 +1,38 @@
+services:
+  biomni:
+    image: ghcr.io/YOUR_USERNAME/biomni-bridge:latest
+    # For a local build, replace the image line above with:
+    # build: .
+    ports:
+      - "127.0.0.1:7860:7860"
+    environment:
+      # Credentials are optional. If omitted, each browser session
+      # enters its own base URL/key in the UI.
+      BIOMNI_CUSTOM_BASE_URL: ${BIOMNI_CUSTOM_BASE_URL:-}
+      BIOMNI_CUSTOM_API_KEY: ${BIOMNI_CUSTOM_API_KEY:-}
+      BIOMNI_CREDENTIAL_MODE: ${BIOMNI_CREDENTIAL_MODE:-auto}
+      BIOMNI_UI_PUBLIC_ENDPOINTS_ONLY: ${BIOMNI_UI_PUBLIC_ENDPOINTS_ONLY:-true}
+      BIOMNI_ALLOWED_API_HOSTS: ${BIOMNI_ALLOWED_API_HOSTS:-}
+      BIOMNI_SESSION_TTL_SECONDS: ${BIOMNI_SESSION_TTL_SECONDS:-3600}
+      BIOMNI_MODEL: ${BIOMNI_MODEL:-}
+      BIOMNI_MODELS: ${BIOMNI_MODELS:-}
+      # Fixed container paths. Host ./data and ./output are mounted below.
+      BIOMNI_DATA_PATH: /data
+      BIOMNI_OUTPUT_PATH: /output
+      BIOMNI_SKIP_DATA_DOWNLOAD: ${BIOMNI_SKIP_DATA_DOWNLOAD:-true}
+      BIOMNI_TIMEOUT_SECONDS: ${BIOMNI_TIMEOUT_SECONDS:-1200}
+      BIOMNI_TEMPERATURE: ${BIOMNI_TEMPERATURE:-0.7}
+      BIOMNI_USE_TOOL_RETRIEVER: ${BIOMNI_USE_TOOL_RETRIEVER:-true}
+      BIOMNI_COMMERCIAL_MODE: ${BIOMNI_COMMERCIAL_MODE:-false}
+      BIOMNI_DISCOVER_MODELS: ${BIOMNI_DISCOVER_MODELS:-true}
+      BIOMNI_DEBUG_LLM_REQUESTS: ${BIOMNI_DEBUG_LLM_REQUESTS:-false}
+      BIOMNI_LLM_STREAM_TRANSPORT: ${BIOMNI_LLM_STREAM_TRANSPORT:-true}
+      BIOMNI_QWEN_DISABLE_THINKING: ${BIOMNI_QWEN_DISABLE_THINKING:-true}
+    volumes:
+      - ./data:/data
+      - ./output:/output
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    stop_grace_period: 30s

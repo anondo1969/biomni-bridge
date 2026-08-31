@@ -1,0 +1,35 @@
+name: Docker check
+
+on:
+  pull_request:
+    paths:
+      - Dockerfile
+      - .dockerignore
+      - requirements.txt
+      - pyproject.toml
+      - "src/**"
+      - "scripts/smoke_import.py"
+      - ".github/workflows/docker-check.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    uses: docker/github-builder/.github/workflows/build.yml@v1
+    permissions:
+      contents: read
+      id-token: write
+    with:
+      output: image
+      push: false
+      # Pull requests get a quick amd64 build. Manual runs validate both native
+      # release architectures without publishing anything.
+      platforms: ${{ github.event_name == 'pull_request' && 'linux/amd64' || 'linux/amd64,linux/arm64' }}
+      meta-images: biomni-bridge-check
+      meta-tags: |
+        type=sha,format=short
+      cache: true
+      cache-mode: min
+      sbom: true

@@ -1,0 +1,32 @@
+version: 2
+updates:
+  # Biomni Bridge intentionally pins a compatibility-sensitive Biomni 0.0.8
+  # Python stack. Routine one-package-at-a-time version PRs are therefore noisy
+  # and often unresolvable. Keep Dependabot security updates, but do not create
+  # normal pip version-update PRs automatically.
+  - package-ecosystem: pip
+    directory: "/"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 0
+    groups:
+      python-security:
+        applies-to: security-updates
+        patterns:
+          - "*"
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 3
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+
+  - package-ecosystem: docker
+    directory: "/"
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 2

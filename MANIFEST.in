@@ -1,0 +1,10 @@
+include README.md
+include SECURITY.md
+include README_MAINTAINER.md
+include MODEL_SERVER_TUNING.md
+include THIRD_PARTY_NOTICES.md
+include LICENSE
+include NOTICE
+include requirements.txt
+
+include RELEASING.md

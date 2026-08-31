@@ -1,0 +1,59 @@
+# Biomni release and versions aligned with the v0.0.8 reproducible environment.
+biomni==0.0.8
+
+# LLM / graph stack used by Biomni 0.0.8.
+langchain==0.3.27
+langchain-core==0.3.72
+langchain-openai==0.3.28
+langchain-anthropic==0.3.18
+langchain-community==0.3.27
+langchain-ollama==0.3.6
+langchain-text-splitters==0.3.9
+langgraph==0.3.18
+langgraph-checkpoint==2.1.1
+langgraph-prebuilt==0.1.8
+langgraph-sdk==0.1.74
+langsmith==0.4.10
+ollama==0.5.1
+openai==1.98.0
+pydantic==2.11.7
+python-dotenv==1.2.2
+
+# Core scientific/runtime packages from Biomni's v0.0.8 environment.yml/fixed_env.yml.
+pandas==2.3.1
+numpy==2.1.0
+scipy==1.15.0
+scikit-learn==1.7.1
+matplotlib==3.10.5
+seaborn==0.13.2
+statsmodels==0.14.5
+networkx==3.5
+beautifulsoup4==4.13.4
+lxml==6.0.0
+PyYAML==6.0.2
+requests==2.33.1
+# Required by biomni.tool.database (Bio.Blast / Bio.Seq). Biomni's own
+# v0.0.8 bio_env.yml includes Biopython, while the PyPI core metadata does not.
+biopython==1.88
+tqdm==4.67.1
+transformers==4.54.1
+sentencepiece==0.2.0
+# Biomni 0.0.8's historical full environment also pinned ToolUniverse 0.2.0,
+# FastMCP 2.11.0 and MCP 1.12.3. They are intentionally NOT installed in
+# this default image: the UI does not call A1.add_mcp()/ToolUniverse, and the
+# historical FastMCP 2.x line now has known security issues whose complete
+# fix requires FastMCP 3.x. Reintroduce MCP/ToolUniverse only together with a
+# compatibility-tested Biomni upgrade. Gradio supplies its own FastAPI/Uvicorn.
+jupyter==1.1.1
+notebook==7.4.4
+ipykernel==6.30.0
+
+# PDF export used by Biomni 0.0.8.
+PyPDF2==3.0.1
+reportlab==4.4.3
+markdown==3.8.2
+weasyprint==66.0
+
+# Biomni 0.0.8's bundled UI targets Gradio 5.x.
+gradio==5.39.0
+gradio-client==1.11.0
