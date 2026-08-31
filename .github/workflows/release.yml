@@ -16,6 +16,7 @@ jobs:
     runs-on: ubuntu-24.04
     outputs:
       image: ${{ steps.image.outputs.name }}
+
     steps:
       - name: Check out repository
         uses: actions/checkout@v7
@@ -33,10 +34,13 @@ jobs:
           version = tomllib.loads(Path("pyproject.toml").read_text())["project"]["version"]
           tag = os.environ["GITHUB_REF_NAME"]
           expected = f"v{version}"
+
           if tag != expected:
               raise SystemExit(
-                  f"Tag {tag!r} does not match pyproject version {version!r}; expected {expected!r}"
+                  f"Tag {tag!r} does not match pyproject version "
+                  f"{version!r}; expected {expected!r}"
               )
+
           print(f"Release version check OK: {tag}")
           PY
 
@@ -46,8 +50,11 @@ jobs:
         run: echo "name=ghcr.io/${GITHUB_REPOSITORY,,}" >> "$GITHUB_OUTPUT"
 
   package:
-    needs: [verify, prepare]
+    needs:
+      - verify
+      - prepare
     runs-on: ubuntu-24.04
+
     steps:
       - name: Check out repository
         uses: actions/checkout@v7
@@ -75,41 +82,78 @@ jobs:
           retention-days: 7
 
   docker:
-    needs: [verify, prepare, package]
-    uses: docker/github-builder/.github/workflows/build.yml@v1
+    needs:
+      - verify
+      - prepare
+      - package
+    runs-on: ubuntu-24.04
+
     permissions:
       contents: read
       packages: write
-      id-token: write
-    with:
-      output: image
-      push: true
-      platforms: linux/amd64,linux/arm64
-      meta-images: ${{ needs.prepare.outputs.image }}
-      meta-tags: |
-        type=semver,pattern={{version}}
-        type=semver,pattern={{major}}.{{minor}}
-        type=raw,value=latest
-        type=sha,format=short
-      set-meta-labels: true
-      set-meta-annotations: true
-      cache: true
-      cache-mode: min
-      sbom: true
-    secrets:
-      registry-auths: |
-        - registry: ghcr.io
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v4
+        with:
+          platforms: arm64
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Generate Docker metadata
+        id: meta
+        uses: docker/metadata-action@v6
+        with:
+          images: ${{ needs.prepare.outputs.image }}
+          flavor: |
+            latest=false
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=raw,value=latest
+            type=sha,format=short
+
+      - name: Build and push multi-platform image
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: ./Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          annotations: ${{ steps.meta.outputs.annotations }}
+          cache-from: type=gha,scope=biomni-bridge-release
+          cache-to: type=gha,mode=min,scope=biomni-bridge-release
+          provenance: mode=max
+          sbom: true
+
   pypi:
-    needs: [package, docker]
+    needs:
+      - package
+      - docker
     runs-on: ubuntu-24.04
+
     environment:
       name: pypi
       url: https://pypi.org/p/biomni-bridge
+
     permissions:
       id-token: write
+
     steps:
       - name: Download Python distributions
         uses: actions/download-artifact@v8
@@ -121,12 +165,19 @@ jobs:
         uses: pypa/gh-action-pypi-publish@release/v1
 
   github-release:
-    needs: pypi
+    needs:
+      - pypi
     runs-on: ubuntu-24.04
+
     permissions:
       contents: write
+
     steps:
       - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --verify-tag --generate-notes
+        run: |
+          gh release create "$GITHUB_REF_NAME" \
+            --repo "$GITHUB_REPOSITORY" \
+            --verify-tag \
+            --generate-notes

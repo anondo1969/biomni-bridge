@@ -17,19 +17,32 @@ permissions:
 
 jobs:
   build:
-    uses: docker/github-builder/.github/workflows/build.yml@v1
-    permissions:
-      contents: read
-      id-token: write
-    with:
-      output: image
-      push: false
-      # Pull requests get a quick amd64 build. Manual runs validate both native
-      # release architectures without publishing anything.
-      platforms: ${{ github.event_name == 'pull_request' && 'linux/amd64' || 'linux/amd64,linux/arm64' }}
-      meta-images: biomni-bridge-check
-      meta-tags: |
-        type=sha,format=short
-      cache: true
-      cache-mode: min
-      sbom: true
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Set up QEMU
+        if: github.event_name == 'workflow_dispatch'
+        uses: docker/setup-qemu-action@v4
+        with:
+          platforms: arm64
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: ./Dockerfile
+          platforms: ${{ github.event_name == 'workflow_dispatch' && 'linux/amd64,linux/arm64' || 'linux/amd64' }}
+          push: false
+          tags: biomni-bridge-check:${{ github.sha }}
+          cache-from: type=gha,scope=biomni-bridge-docker-check
+          cache-to: type=gha,mode=min,scope=biomni-bridge-docker-check
+          provenance: false
+          sbom: false
