@@ -165,9 +165,9 @@ def test_scrub_secret_environment_removes_only_wrapper_secrets(monkeypatch):
 
 
 def test_wrapper_version_matches_release():
-    from biomni_bridge import __version__
-
     from importlib.metadata import PackageNotFoundError, version
+
+    from biomni_bridge import __version__
 
     try:
         installed_version = version("biomni-bridge")
