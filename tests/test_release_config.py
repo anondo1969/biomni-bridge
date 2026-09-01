@@ -6,7 +6,7 @@ ROOT = Path(__file__).resolve().parents[1]
 def test_project_identity_is_biomni_bridge() -> None:
     pyproject = (ROOT / "pyproject.toml").read_text()
     assert 'name = "biomni-bridge"' in pyproject
-    assert 'version = "0.3.1"' in pyproject
+    assert 'version = "0.3.2"' in pyproject
     assert 'biomni-bridge = "biomni_bridge.app:main"' in pyproject
     assert 'biomni-bridge-endpoint-check = "biomni_bridge.endpoint_check:main"' in pyproject
     assert 'biomni-bridge-endpoint-diagnose = "biomni_bridge.endpoint_diagnose:main"' in pyproject
