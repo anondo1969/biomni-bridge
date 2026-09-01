@@ -6,7 +6,7 @@ BioMNI Bridge is an independent compatibility and deployment layer for the BioMN
 
 It is intentionally a **wrapper, not a fork**. The project pins `biomni==0.0.8` and adds only the integration code needed for custom model endpoints, model discovery, endpoint compatibility, PDF export, diagnostics, container packaging, and session handling.
 
-> **Independent project:** Biomni Bridge is not affiliated with, sponsored by, or endorsed by the Zitnik Lab or by the upstream Biomni project or its authors.
+> **Independent project:** Biomni Bridge is not affiliated with, sponsored by, or endorsed by the Stanford University or by the upstream Biomni project or its authors.
 
 > **Security:** Biomni can execute model-generated Python and shell commands. Biomni Bridge is intended for trusted local or controlled self-hosted use. **Do not expose one shared instance as an open public multi-tenant service.** A Gradio queue is not a sandbox. Read [SECURITY.md](SECURITY.md) before allowing anyone else to reach an instance.
 
