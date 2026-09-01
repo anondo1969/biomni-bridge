@@ -1,5 +1,7 @@
 # Biomni Bridge
 
+![Figure: Biomni Bridge](https://raw.githubusercontent.com/anondo1969/biomni-bridge/refs/heads/main/screenshot-Biomni-Bridge.png)
+
 **Biomni Bridge** connects [Biomni](https://github.com/snap-stanford/Biomni) to your own OpenAI-compatible model endpoint through a small Gradio UI and a reproducible Docker runtime.
 
 BioMNI Bridge is an independent compatibility and deployment layer for the BioMNI biomedical agent created by the BioMNI team at Stanford. BioMNI provides the underlying biomedical agent, tools, and scientific capabilities; this project adds integration code for self-hosted/OpenAI-compatible inference environments.
@@ -8,7 +10,7 @@ It is intentionally a **wrapper, not a fork**. The project pins `biomni==0.0.8` 
 
 > **Independent project:** Biomni Bridge is not affiliated with, sponsored by, or endorsed by the Stanford University or by the upstream Biomni project or its authors.
 
-> **Security:** Biomni can execute model-generated Python and shell commands. Biomni Bridge is intended for trusted local or controlled self-hosted use. **Do not expose one shared instance as an open public multi-tenant service.** A Gradio queue is not a sandbox. Read [SECURITY.md](SECURITY.md) before allowing anyone else to reach an instance.
+> **Security:** Biomni can execute model-generated Python and shell commands. Biomni Bridge is intended for trusted local or controlled self-hosted use. **Do not expose one shared instance as an open public multi-tenant service.** A Gradio queue is not a sandbox. Read [SECURITY.md](https://github.com/anondo1969/biomni-bridge/blob/main/SECURITY.md) before allowing anyone else to reach an instance.
 
 ## Why this wrapper exists
 
@@ -589,7 +591,7 @@ If a provider has problems with streamed responses:
 export BIOMNI_LLM_STREAM_TRANSPORT=false
 ```
 
-See [MODEL_SERVER_TUNING.md](MODEL_SERVER_TUNING.md) for proxy and vLLM tuning notes.
+See [MODEL_SERVER_TUNING.md](https://github.com/anondo1969/biomni-bridge/blob/main/MODEL_SERVER_TUNING.md) for proxy and vLLM tuning notes.
 
 ---
 
@@ -812,7 +814,7 @@ After the first GHCR release, change the package visibility to **Public** in Git
 
 PyPI versions are immutable. If a version has already reached PyPI, do not try to replace it; fix the problem and release a new version.
 
-See [RELEASING.md](RELEASING.md) for the repository release checklist.
+See [RELEASING.md](https://github.com/anondo1969/biomni-bridge/blob/main/RELEASING.md) for the repository release checklist.
 
 ---
 
@@ -833,7 +835,7 @@ See [RELEASING.md](RELEASING.md) for the repository release checklist.
 
 ## Security
 
-**Read [SECURITY.md](SECURITY.md) before sharing an instance.** Biomni executes model-generated code and may access files, the network, and system commands. Upstream Biomni itself recommends isolated/sandboxed environments for production use. One Biomni Bridge process is not a secure isolation boundary between mutually untrusted users.
+**Read [SECURITY.md](https://github.com/anondo1969/biomni-bridge/blob/main/SECURITY.md) before sharing an instance.** Biomni executes model-generated code and may access files, the network, and system commands. Upstream Biomni itself recommends isolated/sandboxed environments for production use. One Biomni Bridge process is not a secure isolation boundary between mutually untrusted users.
 
 The documented Docker invocation provides defense-in-depth by:
 
@@ -879,7 +881,7 @@ Keep the Biomni data lake external to Git and the Docker image.
 
 ## License
 
-Biomni Bridge is released under the **Apache License 2.0**. See [LICENSE](LICENSE) and [NOTICE](NOTICE).
+Biomni Bridge is released under the **Apache License 2.0**. See [LICENSE](https://github.com/anondo1969/biomni-bridge/blob/main/LICENSE) and [NOTICE](https://github.com/anondo1969/biomni-bridge/blob/main/NOTICE).
 
 Biomni is an external dependency and is also distributed under Apache-2.0. Its integrated datasets, tools, and other dependencies may have different licenses or usage restrictions; consult the upstream project before redistribution or commercial use.
 
