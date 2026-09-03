@@ -885,7 +885,7 @@ Biomni Bridge is released under the **Apache License 2.0**. See [LICENSE](https:
 
 Biomni is an external dependency and is also distributed under Apache-2.0. Its integrated datasets, tools, and other dependencies may have different licenses or usage restrictions; consult the upstream project before redistribution or commercial use.
 
-Biomni Bridge is an independent project. It is **not affiliated with, sponsored by, or endorsed by the Zitnik Lab or by the upstream Biomni project or its authors**.
+Biomni Bridge is an independent project. It is **not affiliated with, sponsored by, or endorsed by the Stanford University or by the upstream Biomni project or its authors**.
 
 ## Acknowledgements
 
