@@ -4,7 +4,7 @@
 
 **Biomni Bridge** connects [Biomni](https://github.com/snap-stanford/Biomni) to your own OpenAI-compatible model endpoint through a small Gradio UI and a reproducible Docker runtime.
 
-BioMNI Bridge is an independent compatibility and deployment layer for the BioMNI biomedical agent created by the BioMNI team at Stanford. BioMNI provides the underlying biomedical agent, tools, and scientific capabilities; this project adds integration code for self-hosted/OpenAI-compatible inference environments.
+Biomi Bridge is an independent compatibility and deployment layer for the Biomni biomedical agent created by the Biomni team at Stanford. Biomni provides the underlying biomedical agent, tools, and scientific capabilities; this project adds integration code for self-hosted/OpenAI-compatible inference environments.
 
 It is intentionally a **wrapper, not a fork**. The project pins `biomni==0.0.8` and adds only the integration code needed for custom model endpoints, model discovery, endpoint compatibility, PDF export, diagnostics, container packaging, and session handling.
 
