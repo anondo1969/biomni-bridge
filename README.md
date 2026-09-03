@@ -779,11 +779,19 @@ The pending publisher lets the first successful release create the PyPI project.
 
 ### Releasing a version
 
-Before tagging, edit the version in `pyproject.toml`, for example:
+Before tagging, edit the version in `pyproject.toml` and `tests/test_release_config.py`, for example:
 
 ```toml
+# pyproject.toml
 version = "0.3.1"
 ```
+
+```python
+# tests/test_release_config.py
+assert 'version = "0.3.3"' in pyproject
+```
+
+
 
 Then run the release checks locally:
 
@@ -796,7 +804,7 @@ make release-check
 Commit and push the version change. Wait for the normal **CI** workflow to become green. Then create and push the matching tag:
 
 ```bash
-git tag v0.3.1
+git tag -a v0.3.1 -m "Biomni Bridge v0.3.1
 git push origin v0.3.1
 ```
 
